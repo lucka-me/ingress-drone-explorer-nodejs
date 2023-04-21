@@ -1,10 +1,13 @@
 # Ingress Drone Explorer - Node.js
 
+[![CI](https://github.com/lucka-me/ingress-drone-explorer-nodejs/actions/workflows/ci.yml/badge.svg)](https://github.com/lucka-me/ingress-drone-explorer-nodejs/actions/workflows/ci.yml "CI Workflow")
 [![Lines of code][nodejs-loc]][nodejs-repo]
 
 An offline CLI tool to analyze reachable Portals for Ingress Drone Mark I.
 
 Implementations in different languages are listed and compared in [Benchmark](#benchmark).
+
+The CI workflow builds x64 and arm64 binary for macOS, Windows and Linux, the files are available as artifacts.
 
 ## Build from Source
 
