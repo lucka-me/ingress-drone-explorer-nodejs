@@ -26,8 +26,8 @@ jobs:
       - name: Upload Build Outputs
         uses: actions/upload-artifact@v3
         with:
-          name: build-outputs
-          path: build/*
+          name: build-output
+          path: build/
 
   package:
     name: Package
@@ -55,7 +55,8 @@ jobs:
       - name: Download Build Outputs
         uses: actions/download-artifact@v3
         with:
-          name: build-outputs
+          name: build-output
+          path: build/
       - name: Package
         run: npx pkg . -t node18-${{ matrix.platform }}-${{ matrix.arch }} --no-bytecode
       - name: Upload Binary
