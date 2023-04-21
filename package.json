@@ -8,10 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "package": "pkg . -t node18",
-    "package:linux": "pkg . -t node18-linuxstatic",
-    "package:macos": "pkg . -t node18-macos",
-    "package:windows": "pkg . -t node18-win"
+    "package": "pkg . -t node18"
   },
   "author": "lucka-me",
   "license": "MIT",

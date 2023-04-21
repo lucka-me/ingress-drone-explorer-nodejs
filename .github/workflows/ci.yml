@@ -1,0 +1,65 @@
+name: CI
+
+on: push
+
+env:
+  BUILD_TYPE: Release
+  BINARY_NAME: ingress-drone-explorer
+  PKG_CACHE_PATH: ${{ github.workspace }}/.pkg-cache
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Initialize
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Upload Build Outputs
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-outputs
+          path: build/*
+
+  package:
+    name: Package
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      matrix:
+        platform: [ linuxstatic, macos, win ]
+        arch: [ x64, arm64 ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Setup Cache for pkg
+        uses: actions/cache@v3
+        with:
+          key: pkg-cache-${{ matrix.platform }}-${{ matrix.arch }}
+          path: ${{ env.PKG_CACHE_PATH }}
+      - name: Initialize
+        run: npm ci
+      - name: Download Build Outputs
+        uses: actions/download-artifact@v3
+        with:
+          name: build-outputs
+      - name: Package
+        run: npx pkg . -t node18-${{ matrix.platform }}-${{ matrix.arch }} --no-bytecode
+      - name: Upload Binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.BINARY_NAME }}-${{ matrix.platform }}-${{ matrix.arch }}
+          path: bin/${{ env.BINARY_NAME }}*
