@@ -1,0 +1,30 @@
+{
+  "name": "ingress-drone-explorer",
+  "version": "0.0.1",
+  "description": "An offline CLI tool to analyze reachable Portals for Ingress Drone Mark I.",
+  "main": "./build/main.js",
+  "bin": {
+    "ingress-drone-explorer": "./build/main.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "package": "pkg . -t node18",
+    "package:linux": "pkg . -t node18-linuxstatic",
+    "package:macos": "pkg . -t node18-macos",
+    "package:windows": "pkg . -t node18-win"
+  },
+  "author": "lucka-me",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "pkg": "^5.8.1",
+    "typescript": "^5.0.4"
+  },
+  "pkg": {
+    "scripts": "build/**/*.js",
+    "outputPath": "./bin"
+  },
+  "dependencies": {
+    "glob": "^10.2.1"
+  }
+}
