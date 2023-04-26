@@ -1,4 +1,3 @@
-import { start } from "repl";
 import { s2 } from "../s2/Cell";
 import { ExplorerData } from "./ExplorerData";
 
@@ -16,7 +15,7 @@ export function explore(data: ExplorerData) {
     if (data._cells.has(startCell.id())) {
         queue.set(startCell.id(), startCell);
     } else {
-        const cells = startCell.neighbouredCellsCoveringCapOf(data._start, visibleRadius);
+        const cells = startCell.neighboredCellsCoveringCapOf(data._start, visibleRadius);
         for (const cell of cells) {
             if (data._cells.has(cell[0])) {
                 queue.set(cell[0], cell[1]);
@@ -42,7 +41,7 @@ export function explore(data: ExplorerData) {
 
         // Get all neighbors in the visible range (also the possible ones), filter the empty/pending/reached ones and
         // search for reachable ones
-        const neighbors = cell.neighbouredCellsIn(safeRoundsForVisibleRadius);
+        const neighbors = cell.neighboredCellsIn(safeRoundsForVisibleRadius);
         for (const neighbor of neighbors) {
             if (queue.has(neighbor[0]) || data._reachableCells.has(neighbor[0]) || !data._cells.has(neighbor[0])) {
                 continue;
@@ -56,7 +55,7 @@ export function explore(data: ExplorerData) {
         }
 
         // Find keys
-        /// TODO: Consider to use cell.neighbored_cells_in instead?
+        /// TODO: Consider to use cell.neighboredCellsIn instead?
         if (data._cellsContainingKeys.size > 0) {
             for (const portal of portals) {
                 const cellsToRemove = new Set<s2.CellId>();

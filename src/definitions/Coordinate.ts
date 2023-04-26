@@ -32,17 +32,17 @@ export class Coordinate {
     }
     
     distanceToLine(a: Coordinate, b: Coordinate): number {
-        const c_1 = (b._lat - a._lat) * (this._lat - a._lat)
+        const c1 = (b._lat - a._lat) * (this._lat - a._lat)
             + (b._lng - a._lng) * (this._lng - a._lng);
-        if (c_1 <= 0) {
+        if (c1 <= 0) {
             return this.distanceTo(a);
         }
-        const c_2 = (b._lat - a._lat) * (b._lat - a._lat)
+        const c2 = (b._lat - a._lat) * (b._lat - a._lat)
             + (b._lng - a._lng) * (b._lng - a._lng);
-        if (c_2 <= c_1) {
+        if (c2 <= c1) {
             return this.distanceTo(b);
         }
-        const ratio = c_1 / c_2;
+        const ratio = c2 / c2;
         return this.distanceTo(new Coordinate(a._lng + ratio * (b._lng - a._lng), a._lat + ratio * (b._lat - a._lat)));
     }
 

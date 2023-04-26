@@ -54,7 +54,7 @@ export namespace s2 {
             return center.distanceTo(corners[0]) < radius || center.distanceToLine(corners[0], corners[1]) < radius;
         }
 
-        neighbouredCellsCoveringCapOf(center: Coordinate, radius: number): Map<CellId, Cell> {
+        neighboredCellsCoveringCapOf(center: Coordinate, radius: number): Map<CellId, Cell> {
             const result = new Map<CellId, Cell>();
             const outside = new Set<string>;
             const queue = new Map<CellId, Cell>();
@@ -67,8 +67,8 @@ export namespace s2 {
                     continue;
                 }
                 if (cell.intersectsWithCapOf(center, radius)) {
-                    const neighbours = this.neighbours();
-                    for (const item of neighbours) {
+                    const neighbors = this.neighbors();
+                    for (const item of neighbors) {
                         queue.set(item.id(), item);
                     }
                     result.set(id, cell);
@@ -79,10 +79,10 @@ export namespace s2 {
             return result;
         }
 
-        neighbouredCellsIn(rounds: number): Map<CellId, Cell> {
+        neighboredCellsIn(rounds: number): Map<CellId, Cell> {
             const result = new Map<CellId, Cell>();
             /// TODO: Check if correct near the edge of face?
-            /// Maybe we need the algorithm of neighboured_cells_covering_cap_of to "search" instead of generate?
+            /// Maybe we need the algorithm of neighboredCellsCoveringCapOf to "search" instead of generate?
             for (let round = 0; round < rounds; ++round) {
                 const steps = (round + 1) * 2;
                 for (let step = 0; step < steps; ++step) {
@@ -111,7 +111,7 @@ export namespace s2 {
             return result;
         }
 
-        neighbours(): [ Cell, Cell, Cell, Cell ] {
+        neighbors(): [ Cell, Cell, Cell, Cell ] {
             return [
                 new Cell(this._face, this._i - 1, this._j       , this._level),
                 new Cell(this._face, this._i    , this._j - 1   , this._level),
