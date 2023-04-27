@@ -1,5 +1,8 @@
-import { Portal } from "../definitions/Portal";
+import { writeFileSync } from "fs";
+
 import { ExplorerData } from "./ExplorerData";
+import { Portal } from "../definitions/Portal";
+import { s2 } from "../s2/Cell";
 
 export function report(data: ExplorerData) {
     let portalsCount = 0;
@@ -48,5 +51,26 @@ export function report(data: ExplorerData) {
 }
 
 export function saveDrawnItems(filename: string, data: ExplorerData) {
-    
+    const items: DrawnItems[] = [ ];
+    for (const cell of data._cells) {
+        const shape = s2.Cell.fromId(cell[0]).shape()
+        items.push({
+            type: 'polygon',
+            color: data._reachableCells.has(cell[0]) ? '#783cbd' : '#404040',
+            latLngs: shape.map(point => { return { lng: point._lng, lat: point._lat } })
+        })
+    }
+    writeFileSync(filename, JSON.stringify(items))
+    process.stdout.write(`💾 Saved drawn items to ${filename}.`)
+}
+
+interface LngLat {
+    lng: number
+    lat: number
+}
+
+interface DrawnItems {
+    type: 'polygon'
+    color: string
+    latLngs: LngLat[]
 }

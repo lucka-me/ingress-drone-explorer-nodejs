@@ -29,7 +29,7 @@ export function loadPortals(filenames: string[], data: ExplorerData) {
             if (portals === undefined) {
                 const portals = new Map<string, Portal>();
                 portals.set(
-                    raw.guid, new Portal(raw.guid, raw.title ?? "", new Coordinate(raw.lngLat.lng, raw.lngLat.lat))
+                    raw.guid, new Portal(raw.guid, raw.title ?? "", coordinate)
                 );
                 data._cells.set(cell.id(), portals);
                 fileAddCellCount++;
@@ -40,12 +40,12 @@ export function loadPortals(filenames: string[], data: ExplorerData) {
             const portal = portals.get(raw.guid);
             if (portal === undefined) {
                 portals.set(
-                    raw.guid, new Portal(raw.guid, raw.title ?? "", new Coordinate(raw.lngLat.lng, raw.lngLat.lat))
+                    raw.guid, new Portal(raw.guid, raw.title ?? "", coordinate)
                 );
                 fileAddPortalCount++;
             } else if (portal._title.length === 0) {
                 portals.set(
-                    raw.guid, new Portal(raw.guid, raw.title ?? "", new Coordinate(raw.lngLat.lng, raw.lngLat.lat))
+                    raw.guid, new Portal(raw.guid, raw.title ?? "", coordinate)
                 );
             }
         }
@@ -92,7 +92,7 @@ export function loadKeys(filename: string, data: ExplorerData) {
     );
 }
 
-interface RawLngLat {
+interface LngLat {
     lng: number;
     lat: number;
 }
@@ -100,5 +100,5 @@ interface RawLngLat {
 interface RawPortal {
     guid: string;
     title: string | undefined;
-    lngLat: RawLngLat;
+    lngLat: LngLat;
 }
